@@ -79,16 +79,30 @@ INT_PTR CALLBACK DrawEllipseDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
         {
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hDlg, &ps);
+            // Размеры области рисования
             RECT rcPaint = ps.rcPaint;
+            // Размеры овала (эллипса)
             int nWidth = rcPaint.right - rcPaint.left;
             int nHeight = rcPaint.bottom - rcPaint.top;
+            // Красный карандаш (перо)
             HPEN oRedPen = CreatePen(PS_SOLID, 5, RGB(255, 0, 0)), oDefaultPen;
+            // Жёлтая сплошная кисть
             HBRUSH oYellowBrush = CreateSolidBrush(RGB(255, 255, 0)), oDefaultBrush;
+            /*
+            * Чёрная сплошная кисть - цвет заливки области рисования, клиентской части диалогово окна : без рамок, 
+              меню и кнопок "свернуть","развернуть","закрыть" (рабочая область приложения).
+            */ 
             HBRUSH oBlackBrush = CreateSolidBrush(RGB(0, 0, 0));
+            /*
+            * Процесс создаиния рисунка на диаловом окне. Жёлтый овал с красным контуром толщиной 5 пикселей
+            * и размерами равными клиентской области (области рисования) также в пикселях. 
+            Весь рисунок строится на чёрном фоне.
+            */
             FillRect(hdc, &rcPaint, oBlackBrush);
             oDefaultPen = SelectObject(hdc, oRedPen);
             oDefaultBrush = SelectObject(hdc, oYellowBrush);
             Ellipse(hdc, 0, 0, nWidth, nHeight);
+            // Очиска ресурсов и завершение рисования.
             oRedPen = SelectObject(hdc, oDefaultPen);
             oYellowBrush = SelectObject(hdc, oDefaultBrush);
             DeleteObject(oBlackBrush);
@@ -98,6 +112,10 @@ INT_PTR CALLBACK DrawEllipseDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
             EndPaint(hDlg, &ps);
         }
         break;
+        /*
+        * Изменение размеров окна приложения и масштабирование рисунка под размеры окна, т.е.
+        * он дожен быть вписан в диалоговое окно прложения.
+        */
     case WM_SIZE:
         {
             InvalidateRect(hDlg, NULL, TRUE);
