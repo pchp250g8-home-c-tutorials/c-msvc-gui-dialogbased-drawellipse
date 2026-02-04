@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="DrawEllipse/DrawEllipse.vcxproj" Id="7e3cef90-61bd-4773-8edf-9ddd5c3aa16c" />
+</Solution>
