@@ -43,8 +43,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
+    INT_PTR nResponse;
+    INITCOMMONCONTROLSEX InitCtrls;
     hInst = hInstance; // Сохранить маркер экземпляра в глобальной переменной
-    INT_PTR nResponse = DialogBox(hInst, MAKEINTRESOURCE(IDD_DRAWELLIPSE_DIALOG), NULL, DrawEllipseDlg);
+    InitCtrls.dwSize = sizeof(InitCtrls);
+    // Выберите этот параметр для включения всех общих классов управления, которые необходимо использовать
+    // в вашем приложении.
+    InitCtrls.dwICC = ICC_WIN95_CLASSES;
+    InitCommonControlsEx(&InitCtrls);
+    nResponse = DialogBox(hInst, MAKEINTRESOURCE(IDD_DRAWELLIPSE_DIALOG), NULL, DrawEllipseDlg);
     if (nResponse == IDOK)
     {
         // TODO: Введите код для обработки закрытия диалогового окна
